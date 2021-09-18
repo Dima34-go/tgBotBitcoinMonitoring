@@ -81,9 +81,7 @@ func main() {
 				case "trackingRegime1":
 					msg :=tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID,"✔ Режим отслеживания включен")
 					err=changeInformation(int(update.CallbackQuery.Message.Chat.ID),true,db)
-					if err!=nil{
-						errorsWorkDB(InfoBitcoinDB,changeInfo,err)
-					}
+					errorsWorkDB(InfoBitcoinDB,changeInfo,err)
 					_,err =bot.Send(msg)
 					errorsMessage(placeCallbackQuery,err)
 					continue
@@ -116,9 +114,7 @@ func main() {
 					msg :=tgbotapi.NewMessage(update.Message.Chat.ID,
 						helloMessage)
 					err=addNewUser(int(update.Message.Chat.ID),true,db)
-					if err!=nil{
-						errorsWorkDB(InfoBitcoinDB,addInfo,err)
-					}
+					errorsWorkDB(InfoBitcoinDB,addInfo,err)
 					_,err =bot.Send(msg)
 					errorsMessage(placeMessageCommand,err)
 				case "tracking":
@@ -136,10 +132,10 @@ func main() {
 				case "rate":
 					var msgText string
 					if bitcoinNow.isIncrease{
-						msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подорожал на %v💲 (+%v%%) USD",
+						msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подорожал на %v💲 (+%v%%)",
 							bitcoinNow.Cost,bitcoinNow.changeCostUSD,bitcoinNow.changeCostPr)
 					}else {
-						msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подешевел на %v💲 (%v%%) USD",
+						msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подешевел на %v💲 (%v%%)",
 							bitcoinNow.Cost,bitcoinNow.changeCostUSD*(-1),bitcoinNow.changeCostPr)
 					}
 					msg :=tgbotapi.NewMessage(update.Message.Chat.ID,msgText)
@@ -166,17 +162,11 @@ func main() {
 				case "stop_tracking":
 					msg :=tgbotapi.NewMessage(update.Message.Chat.ID,"❌ Оповещения отключены ")
 					err=changeInformation(int(update.Message.Chat.ID),false,db)
-					if err!=nil{
-						errorsWorkDB(InfoBitcoinDB,changeInfo,err)
-					}
+					errorsWorkDB(InfoBitcoinDB,changeInfo,err)
 					err=deleteUserChatIdCostDB(int(update.Message.Chat.ID),db)
-					if err!=nil{
-						errorsWorkDB(ChatIdCostDB,deleteInfo,err)
-					}
+					errorsWorkDB(ChatIdCostDB,deleteInfo,err)
 					err=deleteUserChatIdChangeCostDB(int(update.Message.Chat.ID),db)
-					if err!=nil{
-						errorsWorkDB(ChatIdChangeCostDB,deleteInfo,err)
-					}
+					errorsWorkDB(ChatIdChangeCostDB,deleteInfo,err)
 					_,err =bot.Send(msg)
 					errorsMessage(placeMessageCommand,err)
 				}
@@ -190,9 +180,7 @@ func main() {
 							"вы получите уведомление.")
 						//добавление в базу данных
 						err=addUserCostDB(int(update.Message.Chat.ID),cost,db)
-						if err!=nil{
-							errorsWorkDB(ChatIdCostDB,addInfo,err)
-						}
+						errorsWorkDB(ChatIdCostDB,addInfo,err)
 						delete(status,update.Message.Chat.ID)
 					}else{
 						msg =tgbotapi.NewMessage(update.Message.Chat.ID,"Некоректный формат ввода, пожалуйста, отправьте число в формате: '123.456' ")
@@ -206,9 +194,7 @@ func main() {
 						msg =tgbotapi.NewMessage(update.Message.Chat.ID,"Когда скачок цены Bitcoin`a окажется больше чем "+strconv.FormatFloat(changeCost,'f',2,64)+" USD, "+
 							"вы получите уведомление.")
 						err=addUserChangeCostDB(int(update.Message.Chat.ID),changeCost,db)
-						if err!=nil{
-							errorsWorkDB(ChatIdChangeCostDB,addInfo,err)
-						}
+						errorsWorkDB(ChatIdChangeCostDB,addInfo,err)
 						delete(status,update.Message.Chat.ID)
 					}else{
 						msg =tgbotapi.NewMessage(update.Message.Chat.ID,"Некоректный формат ввода, пожалуйста, отправьте число в формате: '123.456' ")
@@ -232,9 +218,7 @@ func main() {
 			time.Sleep(60*time.Second)
 			//из бд получим юзеров, которым нужно отправить оповещение
 			users,err:=allChatIdCostDB(bitcoinNow.Cost,db)
-			if err!=nil{
-				errorsWorkDB(ChatIdCostDB,giveInfo,err)
-			}
+			errorsWorkDB(ChatIdCostDB,giveInfo,err)
 			//отправим юзерам оповещение
 			for _,user:=range users{
 				msg :=tgbotapi.NewMessage(int64(user.ChatId),"Bitcoin достиг стоимости в "+
@@ -253,9 +237,7 @@ func main() {
 			time.Sleep(60*time.Second)
 			//из бд получим юзеров, которым нужно отправить оповещение
 			users,err:=allChatIdChangeCostDB(bitcoinNow.changeCostUSD,db)
-			if err!=nil{
-				errorsWorkDB(ChatIdChangeCostDB,giveInfo,err)
-			}
+			errorsWorkDB(ChatIdChangeCostDB,giveInfo,err)
 			//отправим юзерам оповещение
 			for _,user:=range users{
 				msg :=tgbotapi.NewMessage(int64(user.ChatId),"Изменение цены Bitcoin`a за последние 24 часа превысило "+
@@ -295,17 +277,15 @@ func main() {
 	for ; ; {
 		var msgText string
 		if bitcoinNow.isIncrease{
-			msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подорожал на %v💲 (+%v%%) USD",
+			msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подорожал на %v💲 (+%v%%)",
 				bitcoinNow.Cost,bitcoinNow.changeCostUSD,bitcoinNow.changeCostPr)
 		}else {
-			msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подешевел на %v💲 (%v%%) USD",
+			msgText=fmt.Sprintf("Курс на данный момент:1₿  = %v💲 \nЗа последние 24 часа Bitcoin подешевел на %v💲 (%v%%)",
 				bitcoinNow.Cost,bitcoinNow.changeCostUSD*(-1),bitcoinNow.changeCostPr)
 		}
 		time.Sleep(30*time.Second)
 		allChatId,err:=allChatIdInfoBitcoinDB(db)
-		if err!=nil{
-			errorsWorkDB(InfoBitcoinDB,giveInfo,err)
-		}
+		errorsWorkDB(InfoBitcoinDB,giveInfo,err)
 		for _,chatId:=range allChatId{
 			msg :=tgbotapi.NewMessage(chatId,msgText)
 			_,err =bot.Send(msg)

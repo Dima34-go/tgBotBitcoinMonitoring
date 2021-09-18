@@ -1,7 +1,8 @@
 package main
 
-
-import "log"
+import (
+	"fmt"
+)
 
 //места возможного возникновения ошибок в коде с парсингом сайта
 var (
@@ -11,7 +12,9 @@ var (
 	placeSendMessageAboutBitcoin = "SendMessageAboutBitcoin message"
 )
 func errorsMessage(place string,err error){
-		log.Println(place,": ",err)
+	if err!=nil{
+		fmt.Println(place,": ",err)
+	}
 }
 //места возможного возникновения ошибок в коде с базой данных
 var (
@@ -27,5 +30,7 @@ var (
 	deleteInfo= "deleteInfo function not work"
 )
 func errorsWorkDB(place string,operation string ,err error){
-	log.Println(place,operation,": ",err)
+	if err!=nil{
+		fmt.Println(place,operation,": ",err)
+	}
 }
