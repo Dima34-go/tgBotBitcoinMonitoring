@@ -31,15 +31,6 @@ CREATE TABLE `allusers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `allusers`
---
-
-LOCK TABLES `allusers` WRITE;
-/*!40000 ALTER TABLE `allusers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `allusers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `notif_change_cost`
 --
 
@@ -51,18 +42,8 @@ CREATE TABLE `notif_change_cost` (
   `ChatId` int(11) NOT NULL,
   `Change_cost` decimal(7,2) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `notif_change_cost`
---
-
-LOCK TABLES `notif_change_cost` WRITE;
-/*!40000 ALTER TABLE `notif_change_cost` DISABLE KEYS */;
-INSERT INTO `notif_change_cost` VALUES (19,1561775851,100.00);
-/*!40000 ALTER TABLE `notif_change_cost` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `notifcost`
@@ -76,17 +57,8 @@ CREATE TABLE `notifcost` (
   `ChatId` int(11) NOT NULL,
   `Cost` decimal(7,2) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `notifcost`
---
-
-LOCK TABLES `notifcost` WRITE;
-/*!40000 ALTER TABLE `notifcost` DISABLE KEYS */;
-/*!40000 ALTER TABLE `notifcost` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `userschat`
@@ -102,16 +74,6 @@ CREATE TABLE `userschat` (
   PRIMARY KEY (`usersId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `userschat`
---
-
-LOCK TABLES `userschat` WRITE;
-/*!40000 ALTER TABLE `userschat` DISABLE KEYS */;
-INSERT INTO `userschat` VALUES (6,613870799,'0'),(11,1561775851,'1'),(12,417406411,'1'),(13,860762049,'0');
-/*!40000 ALTER TABLE `userschat` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -122,4 +84,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-09-17  5:40:13
+-- Dump completed on 2021-09-24  3:44:13
