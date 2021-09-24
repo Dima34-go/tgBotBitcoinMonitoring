@@ -127,4 +127,3 @@ func deleteUserChatIdChangeCostDB(chatId int,db *sql.DB) error {
 	_, err := db.Exec("delete from notif_change_cost where chatId = ?",chatId)
 	return err
 }
-
