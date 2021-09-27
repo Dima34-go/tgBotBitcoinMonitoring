@@ -60,6 +60,10 @@ func allChatIdInfoBitcoinDB(db *sql.DB) ([]int64,error) {
 	err=rows.Close()
 	return chatId,err
 }
+func deleteChatIdInfoBitcoinDB(chatId int,db *sql.DB) error{
+	_, err := db.Exec("delete from userschat where chatId = ?",chatId)
+	return err
+}
 //база данных для уведомлений о дохождении биктойна до цены
 func addUserCostDB(chatId int,cost float64,db *sql.DB) error{
 	_, err := db.Exec("insert into notifCost (chatId, Cost) values (?,?)",
@@ -92,6 +96,24 @@ func allChatIdCostDB(cost float64,db *sql.DB) ([]userCost,error) {
 func deleteUserChatIdCostDB(chatId int,db *sql.DB) error {
 	_, err := db.Exec("delete from notifCost where chatId = ?",chatId)
 	return err
+}
+func allUserChatIdCostDB(db *sql.DB) ([]int64,error){
+	us:=make([]int64,0)
+	rows, err := db.Query("select DISTINCT ChatId from notifCost ")
+	if err != nil {
+		return us,err
+	}
+	i:=0
+	for rows.Next(){
+		us=append(us,0)
+		err = rows.Scan(&us[i])
+		i++
+		if err != nil{
+			return us,err
+		}
+	}
+	err=rows.Close()
+	return us,err
 }
 //база данных для уведомлении о резком скачке биткойна
 func addUserChangeCostDB(chatId int,changeCost float64,db *sql.DB) error {
@@ -126,4 +148,22 @@ func allChatIdChangeCostDB(changeCost float64,db *sql.DB) ([]userCost,error) {
 func deleteUserChatIdChangeCostDB(chatId int,db *sql.DB) error {
 	_, err := db.Exec("delete from notif_change_cost where chatId = ?",chatId)
 	return err
+}
+func allUserChatIdChangeCostDB(db *sql.DB) ([]int64,error){
+	us:=make([]int64,0)
+	rows, err := db.Query("select DISTINCT ChatId from notif_change_cost ")
+	if err != nil {
+		return us,err
+	}
+	i:=0
+	for rows.Next(){
+		us=append(us,0)
+		err = rows.Scan(&us[i])
+		i++
+		if err != nil{
+			return us,err
+		}
+	}
+	err=rows.Close()
+	return us,err
 }

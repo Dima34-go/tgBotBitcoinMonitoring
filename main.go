@@ -14,6 +14,7 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
+	var errNewsPars,errAnalysisPars,errInfoBitcoinPars error
 	bot.Debug = true
 	fmt.Printf("Authorized on account %s", bot.Self.UserName)
 	u := tgbotapi.NewUpdate(0)
@@ -35,6 +36,7 @@ func main() {
 	}()
 	//массив с данными о статусе пользователя
 	status := make(map[int64]string,0)
+	//Получение информации с сайта, до запуска бота
 	bitcoinNow,err:=parsAllInfoAboutBitcoin()
 	if err!=nil{
 		log.Panic("Проблема с парсингом информации о биткойне: ",err)
@@ -55,18 +57,20 @@ func main() {
 			}else if update.CallbackQuery != nil{//обработка callback ответа
 				isCallbackQuery(&update,bot,db,status)
 			}else if update.Message.IsCommand(){//обработка команд
-				isCommandCase(&update,bot,db,bitcoinNow,allNews,allAnalysis)
+				isCommandCase(&update,bot,db,bitcoinNow,allNews,allAnalysis,&errInfoBitcoinPars,&errNewsPars,&errAnalysisPars)
 			} else if !update.Message.IsCommand() {//обработка сообщений
 				isUsualMessage(&update,bot,db,status)
 			}
 
 		}
 	}()
-	//обновление информации о биткойне
-	go updateInfoAboutBitcoin(30*time.Second,&bitcoinNow)
-	go updateNewsAnalysis(30*time.Second,allAnalysis,allNews)
-	//Отправка информации о цене биткойна
-	go sendMessageAboutCostBitcoin(bitcoinNow,db,bot,60*time.Second)
-	go sendMessageAboutChangeCostBitcoin(bitcoinNow,db,bot,60*time.Second)
-	sendMessageBitcoin(bitcoinNow,db,bot,60*time.Second)
+	//оповещение пользователей о проблемах работы бота
+	go sendMessageUserAboutError(db,bot,&errInfoBitcoinPars)
+	//обновление информации о bitcoin`e и изменении его цены
+	go updateInfoAboutBitcoin(30*time.Second,&bitcoinNow,&errInfoBitcoinPars)
+	go updateNewsAnalysis(30*time.Second,allAnalysis,allNews,&errNewsPars,&errAnalysisPars)
+	//Отправка информации о цене bitcoin`a и ее изменении
+	go sendMessageAboutCostBitcoin(bitcoinNow,db,bot,60*time.Second,&errInfoBitcoinPars)
+	go sendMessageAboutChangeCostBitcoin(bitcoinNow,db,bot,60*time.Second,&errInfoBitcoinPars)
+	sendMessageBitcoin(bitcoinNow,db,bot,60*time.Minute,&errInfoBitcoinPars)
 }

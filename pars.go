@@ -31,7 +31,7 @@ func parsNews() ([]string,error){
 				if i<quatityNews{
 					url,ok:=s.Attr("href")
 					if !ok{
-						err=errors.New("проблема с парсингом новостей")
+						err=errors.New("ошибка выделения ссылок, проверьте доступность сайта")
 					}
 					if url[0:4]!="http"{
 						url=prefix+url
@@ -62,7 +62,7 @@ func parsAnalysis() ([]string,error){
 						url=prefix+url
 					}
 					if !ok{
-						err=errors.New("проблема с парсингом аналитики")
+						err=errors.New("ошибка выделения ссылок, проверьте доступность сайта")
 					}
 					allAnalysis=append(allAnalysis,url)
 					i++
